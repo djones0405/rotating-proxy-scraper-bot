@@ -1,5 +1,5 @@
 # rotating-proxy-scraper-bot
-This is is still being developed but currently I have gotten it to print proxy lists from api with proxy_scraper, and use fiver scraper modular.py to load a proxy and complete login and button clikcs on posts that fit specification. This has been written as a learning exercise and nothing more, please follow terms of service.  
+This is is still being developed but currently I have gotten it to print proxy lists from api with proxy_scraper, and use fiver scraper modular.py to load a proxy and complete login and button clicks on posts that fit specification. This has been written as a learning exercise and nothing more, please follow terms of service.  
 
 03/26/2023-
 
