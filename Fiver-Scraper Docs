@@ -121,6 +121,54 @@ Troubleshooting:
 
 It will now run 'proxy_scraper' if 'proxy_list' isn't in the directory. :)
 
+03/26/2023
+
+Updated main function to print count for removed proxies from list for test purposes. See following code:
+
+"def main():
+    load_proxies()
+    proxy_index = random_proxy()
+    proxy = proxies[proxy_index]
+
+    # Scrape data using the proxy
+    req = Request('https://fiver.com')
+    req.set_proxy(proxy['ip'] + ':' + proxy['port'], 'http')
+
+    try:
+        my_ip = urlopen(req).read().decode('utf8')
+        print(f"Using proxy {proxy['ip']}:{proxy['port']} to scrape data")
+        print(f"My IP: {my_ip}")
+    except:
+        global proxy_removed_count
+        proxy_removed_count += 1
+        del proxies[proxy_index]
+        print(f"Proxy {proxy['ip']}:{proxy['port']} failed. Removing it from list.")
+        main()
+
+if __name__ == '__main__':
+    proxy_removed_count = 0
+    main()
+    print(f"Number of proxies removed: {proxy_removed_count}")"
+
+Troubleshooting:
+
+Syntax error
+    'if __name__ == '__main__': '
+
+was in the code twice, removed the extra copy.
+
+Test-
+still not printing # of proxies removed.
+
+Noticed that the main() function is calling itself recursively when a proxy fails.
+
+Troubleshooting:
+
+Fixed the recursive call with a loop that continues until a valid proxy is found. Here's an updated version of the code that implements this fix:
+
+Testing-
+    This time it did print the # of proxies removed :)
+
 
 
 
