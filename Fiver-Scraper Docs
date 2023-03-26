@@ -1,0 +1,139 @@
+03/25/2023-Fiver-Scraper -
+
+Python tool to scrape Fiver for posts matching specified criteria and apply for the job.
+
+Setup virtual enviroment.
+
+Write code to launch a web browser and navigate to the Fiverr website.
+
+
+
+
+**** work out proxy for scraper**
+
+
+03/25/2023
+Considered using the following packages:
+
+1. rotating-proxy - tested with https://proxylist.to API.
+
+- redeived error: "IndexError: list index out of range"
+
+03/26/2023 - Troubleshooting:
+
+    Updated with the following code to include error handleing and print statements for troubleshooting:
+
+    if ':' not in proxy:
+    print(f"Error: proxy '{proxy}' is not in the expected format (ip:port)")
+    continue # skip this proxy and move on to the next one
+
+The API is returning proxies'http.txt' which I will need in the selenium application for webscraping!
+
+When breaking into modules I noticed that 'http.txt' needs to be in the same folder as Fiver-Scraper-Modular.py
+
+Error: list index out of range
+
+Troubleshooting:
+
+    Updated with the following code:
+
+    "def load_proxies():
+    global proxies
+    with open(PROXY_FILE, 'r') as f:
+        proxies_doc = f.readlines()[:100]  # Only read the first 100 lines
+        for proxy in proxies_doc:
+            try:
+                ip, port = proxy.strip().split(':')
+                proxies.append({'ip': ip, 'port': port})
+            except ValueError:
+                continue"
+
+This updates 'readlines()' to reall all the lines from the file and the first [:100]' slice returns only the first 100 lines. This may be adjusted by editing the following line:
+
+"proxies_doc = f.readlines()[:100]  # Only read the first 100 lines". Also added  'proxy.strip().split(:)' to remove trailing whitespace, and ".split(':)" splits each line into the IP address and port # .def load_proxies():
+    proxies = []
+    for i in range(1, 11):
+        url = f"http://www.freeproxylists.net/?page={i}"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        table = soup.find('table', attrs={'class': 'DataGrid'})
+        rows = table.findAll('tr')
+        for row in rows[1:]:
+            cols = row.findAll('td')
+            ip = cols[0].text.strip()
+            port = cols[1].text.strip()
+            proxies.append({'ip': ip, 'port': port})
+    return proxies
+
+
+ Still receiving Error: list out of range:
+
+ Troubleshooting:
+
+ In this version of the function, we use the strip() method to remove any whitespace from the beginning or end of each line in proxy_list, and we only include lines that are not empty in the list comprehension. This should prevent the IndexError caused by an empty line in the file. for changes see following code:
+
+ "def load_proxies():
+    global proxies
+    with open(PROXY_FILE) as f:
+        proxy_list = f.readlines()
+    proxies = [{'ip': proxy.split(':')[0], 'port': proxy.split(':')[1]} for proxy in proxy_list if proxy.strip()]"
+
+successful - this works as long as there is  a proxy_list.txt file in the same directory.
+
+
+Working on having Fiver Scraper Modular.py call proxy_scraper.py when there is no 'proxy_list.txt' in the same directory. Although 'proxy_scraper.py' will still need to share a directory, or have the location hard coded.
+
+NameError: name 'scrape_proxies' is not defined
+
+Troubleshooting:
+    In proxy_scraper.py added 'import BeautifulSoup' and the following scrape_proxies function:
+
+
+'def scrape_proxies(proxy_file):
+    proxy_list = []
+    for i in range(1, 11):
+        url = f"http://www.freeproxylists.net/?page={i}"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        table = soup.find('table', attrs={'class': 'DataGrid'})
+        rows = table.findAll('tr')
+        for row in rows[1:]:
+            cols = row.findAll('td')
+            ip = cols[0].text.strip()
+            port = cols[1].text.strip()
+            proxy_list.append(ip + ":" + port)
+    with open(proxy_file, "w") as f:
+        f.write("\n".join(proxy_list))'
+
+Troubleshooting:
+
+    Imported the os module to check if proxy_list.txt file exists.
+    Imported the subprocess module to run proxy_scraper.py script.
+    Moved the definition of scrape_proxies() function inside Fiver Scraper Modular.py to avoid ImportError.
+    Modified the load_proxies() function to first check if proxy_list.txt file exists, and if not, call the scrape_proxies() function to generate the list.
+    Added a try-except block around the open() function in load_proxies() to handle the FileNotFoundError exception.
+    Updated the scrape_proxies() function to return the list of proxies.
+    Modified the main() function to call the load_proxies() function at the beginning to ensure that the proxy list is loaded before selecting a random proxy.
+
+
+  Had to add the following code to python 3.8 for subprocess.run to not through an error because it couldn't be found (I have multiple versions of python on this pc so I added 'subprocess.run(["/bin/python3.8", "proxy_scraper.py"] capture_output=True, text=True)
+
+
+It will now run 'proxy_scraper' if 'proxy_list' isn't in the directory. :)
+
+
+
+
+
+
+03/26/2023
+
+ installed Selenium and Chrome-Driver for the Fiver-search-apply.py:
+
+ First test of Fiver-Scraper returned the following error:
+
+ 'AttributeError: 'WebDriver' object has no attribute 'find_element_by_id''
+
+ Trobleshooting:
+
+ replacing 'find_element_by_id' with WebDriverWait(driver, 10)
