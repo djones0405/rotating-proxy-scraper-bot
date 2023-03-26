@@ -1,0 +1,62 @@
+proxy_checker.py
+
+proxy_checker.py is a Python script that allows you to check the status of a proxy. This script is used in conjunction with another script that requires a list of working proxies to run, such as the Fiverr Scraper script.
+Getting Started
+
+To use proxy_checker.py, you will need to have Python 3 installed on your computer. You will also need to install the following libraries:
+
+    requests
+    urllib3
+    fake_useragent
+    bs4
+
+You can install these libraries using pip, the package installer for Python. Open a terminal or command prompt and enter the following commands:
+
+pip install requests
+pip install urllib3
+pip install fake_useragent
+pip install bs4
+
+Usage
+
+To use proxy_checker.py, simply run the script using the following command:
+
+python proxy_checker.py
+
+This will retrieve the latest proxies from a specified API and check the status of each proxy. If a proxy is working, it will be added to the proxy_list.txt file.
+
+You can adjust the API and proxy file settings by changing the values of the api_key and proxy_file variables in the script.
+Disclaimer
+
+Proxy_checker.py is intended for educational and research purposes only. Please use it responsibly and respect the terms and conditions of the API and websites you scrape. The developer of this script is not responsible for any misuse of the script.
+proxy_scraper.py
+
+proxy_scraper.py is a Python script that allows you to scrape free proxies from a website. This script is used in conjunction with another script that requires a list of proxies to run, such as the Fiverr Scraper script.
+Getting Started
+
+To use proxy_scraper.py, you will need to have Python 3 installed on your computer. You will also need to install the following libraries:
+
+    requests
+    urllib3
+    fake_useragent
+    bs4
+
+You can install these libraries using pip, the package installer for Python. Open a terminal or command prompt and enter the following commands:
+
+pip install requests
+pip install urllib3
+pip install fake_useragent
+pip install bs4
+
+Usage
+
+To use proxy_scraper.py, simply run the script using the following command:
+
+python proxy_scraper.py
+
+This will scrape a specified website for free proxies and write them to a proxy_list.txt file in the same directory as the script.
+
+You can adjust the website and proxy file settings by changing the values of the url and proxy_file variables in the script.
+Disclaimer
+
+Proxy_scraper.py is intended for educational and research purposes only. Please use it responsibly and respect the terms and conditions of the website you scrape. The developer of this script is not responsible for any misuse of the script.

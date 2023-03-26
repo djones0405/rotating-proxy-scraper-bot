@@ -1,0 +1,34 @@
+Proxy-based Web Scraping
+
+This Python script enables you to scrape data from websites using a proxy. It first checks if a file named proxy_list.txt exists in the current directory. If not, it calls the proxy_scraper.py script to scrape a website and create the proxy_list.txt file.
+
+Then, the script loads the proxies from proxy_list.txt and selects a random proxy to use for the web scraping. If the selected proxy fails to retrieve data, it removes the proxy from the list and selects another random proxy to retry.
+Requirements
+
+To run this script, you need to have Python 3 installed on your computer. You will also need to have the following libraries installed:
+
+    os
+    random
+    urllib3
+    urllib.request
+    subprocess
+    proxy_scraper
+
+You can install the libraries by running the following command:
+
+lua
+
+pip install os random urllib3 urllib.request subprocess proxy_scraper
+
+Usage
+
+To use this script, you need to have a website you want to scrape data from. You can replace the URL in the Request object with the website URL you want to scrape.
+
+To run the script, simply enter the following command:
+
+python web_scraper.py
+
+This will select a random proxy from the proxy_list.txt file and use it to scrape the data from the specified website.
+Disclaimer
+
+This script is intended for educational and research purposes only. Please use it responsibly and respect the terms and conditions of the website you scrape. The developer of this script is not responsible for any misuse of the script.
