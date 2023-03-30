@@ -1,0 +1,20 @@
+def main():
+    load_proxies()
+    proxy_index = random_proxy()
+    proxy = proxies[proxy_index]
+
+    # Scrape data using the proxy
+    req = Request('https://fiver.com')
+    req.set_proxy(proxy['ip'] + ':' + proxy['port'], 'http')
+
+    try:
+        my_ip = urlopen(req).read().decode('utf8')
+        print(f"Using proxy {proxy['ip']}:{proxy['port']} to scrape data")
+        print(f"My IP: {my_ip}")
+    except:
+        del proxies[proxy_index]
+        print(f"Proxy {proxy['ip']}:{proxy['port']} failed. Removing it from list.")
+        main()
+
+    if os.path.isfile(PROXY_FILE):
+        os.remove(PROXY_FILE)
